@@ -38,7 +38,7 @@ if libname and os.path.isdir('_sounddevice_data/portaudio-binaries'):
     packages = ['_sounddevice_data']
     package_data = {'_sounddevice_data': ['portaudio-binaries/' + libname,
                                           'portaudio-binaries/README.md']}
-    if system == 'Windows'and 'SD_ENABLE_ASIO' in os.environ:
+    if system == 'Windows'
         package_data['_sounddevice_data'].append(
             'portaudio-binaries/' + libname_asio)
     zip_safe = False
