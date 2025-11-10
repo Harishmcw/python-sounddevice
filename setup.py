@@ -18,12 +18,18 @@ MACOSX_VERSIONS = '.'.join([
 system = os.environ.get('PYTHON_SOUNDDEVICE_PLATFORM', platform.system())
 architecture0 = os.environ.get('PYTHON_SOUNDDEVICE_ARCHITECTURE',
                                platform.architecture()[0])
+machine = platform.machine().lower()
+is_arm64 = machine in ['arm64', 'aarch64']
 
 if system == 'Darwin':
     libname = 'libportaudio.dylib'
 elif system == 'Windows':
-    libname = 'libportaudio' + architecture0 + '.dll'
-    libname_asio = 'libportaudio' + architecture0 + '-asio.dll'
+    if is_arm64:
+        libname = 'libportaudioarm64.dll'
+        libname_asio = 'libportaudioarm64-asio.dll'
+    else:
+        libname = 'libportaudio' + architecture0 + '.dll'
+        libname_asio = 'libportaudio' + architecture0 + '-asio.dll'
 else:
     libname = None
 
@@ -31,7 +37,7 @@ if libname and os.path.isdir('_sounddevice_data/portaudio-binaries'):
     packages = ['_sounddevice_data']
     package_data = {'_sounddevice_data': ['portaudio-binaries/' + libname,
                                           'portaudio-binaries/README.md']}
-    if system == 'Windows':
+    if system == 'Windows'and 'SD_ENABLE_ASIO' in os.environ:
         package_data['_sounddevice_data'].append(
             'portaudio-binaries/' + libname_asio)
     zip_safe = False
@@ -52,7 +58,9 @@ else:
             if system == 'Darwin':
                 oses = MACOSX_VERSIONS
             elif system == 'Windows':
-                if architecture0 == '32bit':
+                if is_arm64:
+                    oses = 'win_arm64'
+                elif architecture0 == '32bit':
                     oses = 'win32'
                 else:
                     oses = 'win_amd64'
