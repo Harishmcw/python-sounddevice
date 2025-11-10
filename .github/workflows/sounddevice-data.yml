@@ -21,7 +21,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: ${{ matrix.os == 'windows-latest' && matrix.arch == 'arm64' && '3.11' || '3.10' }}
+          python-version: ${{ matrix.os == 'windows-latest' && matrix.arch == 'arm64' && '3.13' || '3.10' }}
           architecture: ${{ matrix.arch }}
       - name: Double-check Python version
         run: |
