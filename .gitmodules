@@ -1,3 +1,4 @@
 [submodule "portaudio-binaries"]
 	path = _sounddevice_data/portaudio-binaries
-	url = https://github.com/spatialaudio/portaudio-binaries.git
+	url = https://github.com/Harishmcw/portaudio-binaries.git
+	branch = add-win-arm64-support
