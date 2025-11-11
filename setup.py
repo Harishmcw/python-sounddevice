@@ -19,8 +19,7 @@ system = os.environ.get('PYTHON_SOUNDDEVICE_PLATFORM', platform.system())
 architecture0 = os.environ.get('PYTHON_SOUNDDEVICE_ARCHITECTURE',
                                platform.architecture()[0])
 machine = platform.machine().lower()
-arch_env = os.environ.get('PYTHON_SOUNDDEVICE_ARCHITECTURE', '').lower()
-is_arm64 = arch_env in ['arm64', 'aarch64'] or machine in ['arm64', 'aarch64']
+is_arm64 = machine in ['arm64', 'aarch64']
 
 if system == 'Darwin':
     libname = 'libportaudio.dylib'
