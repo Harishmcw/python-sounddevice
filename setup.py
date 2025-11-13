@@ -16,18 +16,14 @@ MACOSX_VERSIONS = '.'.join([
 
 # environment variables for cross-platform package creation
 system = os.environ.get('PYTHON_SOUNDDEVICE_PLATFORM', platform.system())
-architecture0 = os.environ.get('PYTHON_SOUNDDEVICE_ARCHITECTURE',
-                               platform.architecture()[0])
 machine = platform.machine().lower()
 is_arm64 = machine in ['arm64', 'aarch64']
+architecture0 = os.environ.get('PYTHON_SOUNDDEVICE_ARCHITECTURE',
+    'arm64' if is_arm64 else platform.architecture()[0])
 
 if system == 'Darwin':
     libname = 'libportaudio.dylib'
 elif system == 'Windows':
-    if is_arm64:
-        libname = 'libportaudioarm64.dll'
-        libname_asio = 'libportaudioarm64-asio.dll'
-    else:
         libname = 'libportaudio' + architecture0 + '.dll'
         libname_asio = 'libportaudio' + architecture0 + '-asio.dll'
 else:
