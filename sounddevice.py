@@ -74,17 +74,14 @@ except OSError:
     if _platform.system() == 'Darwin':
         _libname = 'libportaudio.dylib'
     elif _platform.system() == 'Windows':
-        machine = _platform.machine().lower()
-        if machine in ('arm64', 'aarch64'):
-            if 'SD_ENABLE_ASIO' in _os.environ:
-                _libname = 'libportaudioarm64-asio.dll'
-            else:
-                _libname = 'libportaudioarm64.dll'
+        if _platform.machine().lower() in ('arm64', 'aarch64'):
+            _platform_suffix = 'arm64'
         else:
-            if 'SD_ENABLE_ASIO' in _os.environ:
-                _libname = 'libportaudio' + _platform.architecture()[0] + '-asio.dll'
-            else:
-                _libname = 'libportaudio' + _platform.architecture()[0] + '.dll'
+            _platform_suffix = _platform.architecture()[0]
+        if 'SD_ENABLE_ASIO' in _os.environ:
+            _libname = 'libportaudio' + _platform_suffix + '-asio.dll'
+        else:
+            _libname = 'libportaudio' + _platform_suffix + '.dll'
     else:
         raise
     import _sounddevice_data
